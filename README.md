@@ -4,7 +4,8 @@ This project explores the design and implementation of a spatial database using 
 
 This project is done for ongoing central expressway highway construction project in Sri Lanka which is extended from Kurunegala to Kandy. It involves significant engineering challenges, particularly in the section between chainage CH - 0.0km to CH - 0.8km, where the terrain is dominated by massive, hard rock formations. These formations necessitate the use of explosive blasting for excavation, which poses a potential risk to nearby structures and infrastructure. The primary concern is the impact of these blasting activities on the surrounding environment, including the potential damage to nearby roads, buildings, and other structures.
 
-For a comprehensive description of the project, please refer to the link provided.
+For a comprehensive description of the project, please refer to the [link provided](https://storymaps.arcgis.com/stories/296d3dc378fb4131b3830041748e2a87/edit)
+.
 
 **Project Repository Overview**
 
