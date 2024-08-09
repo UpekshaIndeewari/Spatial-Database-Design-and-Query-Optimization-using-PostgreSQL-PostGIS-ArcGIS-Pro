@@ -1,2 +1,2 @@
-# Spatial Database Design and Query Optimization
-This project is based on the data base management system in order to assess the surrounding location with respect to the blasting locations o proposed highway construction project using PostGIS
+# Spatial Database Design and Query Optimization for Highway Blasting Pre Impact Assessment: A Case Study Using PostgreSQL,  PostGIS and ArcGIS Pro
+This project explores the design and implementation of a spatial database using PostgreSQL and PostGIS and visualization using ArcGIS Pro, focusing on assessing the impact of blasting locations in a proposed highway project.
