@@ -14,3 +14,6 @@ This repository contains all the files associated with the project, including:
 2. Text Files:Scripts for creating and managing database and tables.
 3. CSV Files: Data files used for importing or exporting information into the database.
 4. Project Report: PDF documents describe the details of the project
+
+![Alt text]([https://example.com/path/to/image.png](https://www.google.com/imgres?q=magenta&imgurl=https%3A%2F%2Fmoltondiscount.de%2Fmedia%2Fee%2F3e%2Fdd%2F1647894326%2FDekomolton%2520magenta%2520260%2520cm%2520breit%2C%2520Vorderseite.jpg&imgrefurl=https%3A%2F%2Fmoltondiscount.de%2Fdekomolton-magenta-260cm-meterware-b1%2F86&docid=PTrNlYfm1MaijM&tbnid=Zi1gZrIgbfXYnM&vet=12ahUKEwikn8DpgeiHAxUf9wIHHTQLDy4QM3oECFgQAA..i&w=600&h=600&hcb=2&ved=2ahUKEwikn8DpgeiHAxUf9wIHHTQLDy4QM3oECFgQAA))
+
