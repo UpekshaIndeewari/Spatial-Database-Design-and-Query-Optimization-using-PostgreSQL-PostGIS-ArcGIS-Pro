@@ -1,0 +1,206 @@
+Problem 01
+
+For allocating the explosives for each highway section, Explosive controller of the region wants to
+get details of seId, seChainage, SeInchargeEng, Number of blasting locations of each section,
+Summation of estimated blasting rock volume of each blasting location.
+--------------------------------------------------------------------------------------------------------
+Query 01
+
+SELECT se.seid,
+       se.sechainage,
+       se.seinchargeeng,
+       Count(b.blid)                  AS "No of Blasting
+Locations",
+       COALESCE(Sum(b.blquantity), 0) AS "Blasting Qty"
+FROM   section se
+       LEFT JOIN blastinglocation b
+              ON se.seid = b.seid
+GROUP  BY se.seid
+ORDER  BY 4 DESC,
+          5 DESC;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Problem 02A
+
+During the blasting time, it has been decided to evacuate the peoples within 300m distance interval
+from each blasting location temporary. So incharge engineers of all sections want to know how
+many structures are located within 300m distance interval from each blasting location.
+--------------------------------------------------------------------------------------------------------
+Query 02A
+
+SELECT b.blid,
+       Count(s.*) AS "No of Structures"
+FROM   structure s
+       JOIN blastinglocation b
+         ON St_within(s.location,
+       St_buffer(b.blposition, 300 * 0.00001, 'endcap=round join=round'))
+GROUP  BY b.blid; 
+
+========================================================================================================
+Problem 02B
+
+Incharge engineers of all sections want to look situation of structures within 300m distance interval
+with 300m buffer zone from each blasting location.
+--------------------------------------------------------------------------------------------------------
+Query 02B
+
+SELECT blid,
+       St_buffer(blposition, 300 * 0.00001, 'endcap=round join=round')
+FROM   blastinglocation; 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Problem 03
+
+During the construction of highway trace, if any structures are laying within the highway trace
+those should be evacuated permanently. Therefore designers want to know the location of structure,
+strId, type of structure, Number of floors of the structures which are located within the proposed
+highway trace.
+--------------------------------------------------------------------------------------------------------
+Query 03
+
+SELECT s.strid,
+       s.type,
+       s.nofloors,
+       s.location
+FROM   structure s
+WHERE  St_within(s.location, (SELECT St_union(se.seposition)
+                              FROM   section se));
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Problem 04
+
+During the blasting time, people who are living in the 300m distance from blasting location should
+be temporary evacuated for safety purposes. Therefore blasting Engineer who allocated the
+blId=”BL01” wants to know position of structures, strId, type which are located within 300m
+distance interval from blasting location blId=”BL01”.
+--------------------------------------------------------------------------------------------------------
+Query 04
+
+SELECT s.strid,
+       s.type,
+       s.location
+FROM   structure s
+WHERE  St_within(s.location, (SELECT St_buffer(( b.blposition ), 0.00001 * 300,
+                                            'endcap=round join=round')
+                              FROM   blastinglocation b
+                              WHERE  b.blid = 'BL01')); 
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Problem 05
+
+During the blasting time, the Blastmate (instrument which used to measure the vibration effect due
+to blasting) should be fixed in nearest four structures to the each blasting locations. Therefore
+blasting engineer who allocated the blId=”BL03” wants to know the strID, noFloors, distance from
+blasting location, location of nearest structures to blasting location blId=”BL03”.
+--------------------------------------------------------------------------------------------------------
+Query 05
+
+SELECT s.strid,
+       s.nofloors,
+       Round(St_length(St_shortestline(s.location, b.blposition)) * 100000) AS
+       "Distance",
+       s.location
+FROM   structure s,
+       blastinglocation b
+WHERE  b.blid = 'BL03'
+ORDER  BY 3
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Problem 06
+
+With parallel to the highway project, the roads which are located near the highway trace should be
+developed. Therefore, roads type called “Soil” and “Other” should be converted as Tar paved roads.
+Designers want to know the location of roads of above mentioned rdGrade, rdId and their length in
+meters to nearest integer value.
+--------------------------------------------------------------------------------------------------------
+Query 06
+
+SELECT   rdid,
+         rdgrade,
+         Round(St_length(rdposition)*100000) AS "Length",
+         St_union(rdposition)                AS "Selected Roads"
+FROM     road
+WHERE    rdgrade = 'Other'
+OR       rdgrade='Soil'
+GROUP BY rdid;ORDER BY 3 limit 4; 
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Problem 07
+
+The area surrounded by proposed highway trace is highly affected water scarcity problem.
+Therefore as a CSR project, consultant and contractor parties are introduced new water supply
+project. Find the GPS point of suitable location (Centroid point) to establish water tank by
+considering the locations of the all the structures type=”Religious Place, “School”, “Hospital”.
+--------------------------------------------------------------------------------------------------------
+Query 07
+
+SELECT St_astext(St_centroid(St_union(location))) AS "Location for Water Tank"
+FROM   structure
+WHERE  type = 'Religious Place'
+        OR type = 'School'
+        OR type = 'Hospital';
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Problem 08
+
+Before commencing the blasting activities, it is proposed that the pre-condition survey of nearby
+structures should be started on Eastern direction. Hence team which will carry out the pre-condition
+survey wants to know which structure is located in most Eastern direction and its coordinates in
+EPSG 5234 projected coordinate system.
+--------------------------------------------------------------------------------------------------------
+Query 08
+
+SELECT strid,
+       location,
+       St_astext(St_transform(location, 5234))
+FROM   structure
+ORDER  BY St_x(location) DESC
+LIMIT  1; 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Problem 09
+
+Designers want to find out the minimum length for proposed overpass bridge which should be
+constructed for permanently evacuating the existing road due to the highway construction.
+--------------------------------------------------------------------------------------------------------
+Query 09
+
+SELECT r.rdid,
+       St_intersection(r.rdposition, se.seposition),
+       Round(St_length(St_intersection(r.rdposition, se.seposition)) * 100000)
+       AS
+       "Length"
+FROM   road r
+       JOIN section se
+         ON St_intersects(r.rdposition, se.seposition);
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Problem 10
+
+Here in problem 03 designers identified the three structures (H01, H21, H79) should be evacuated
+permanently because those structures have been located within the proposed highway trace. For
+selecting the lands to re-locate, designers used criteria as follows.
+
+Lands should be selected within the intersection area of minimum bounding circle of all religious
+places and minimum bounding circle of all schools. Hence designers want to show the intersection
+area visually.
+--------------------------------------------------------------------------------------------------------
+Query 10
+
+SELECT type,
+       St_minimumboundingcircle(St_union(location)) AS MinimumBoundingCircle
+FROM   structure
+WHERE  type = 'Religious Place'
+        OR type = 'School'
+GROUP  BY type; 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////// 
