@@ -10,10 +10,12 @@ For a comprehensive description of the project, please refer to the [link provid
 **Project Repository Overview**
 
 This repository contains all the files associated with the project, including:
-
+**Data File**
 1. SQL Files: Scripts for creating and managing database and tables.
 2. Text Files:Scripts for creating and managing database and tables and data for each tables.
 3. CSV Files: Data files used for importing information into the database.
+**Query&Solution**
+This contains problems, queries and solutions
 
 
 
