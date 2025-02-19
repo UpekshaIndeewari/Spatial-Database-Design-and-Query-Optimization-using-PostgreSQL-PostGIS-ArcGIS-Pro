@@ -14,7 +14,7 @@ This repository contains all the files associated with the project, including:
 1. SQL Files: Scripts for creating and managing database and tables.
 2. Text Files:Scripts for creating and managing database and tables and data for each tables.
 3. CSV Files: Data files used for importing information into the database.
-4. Project Report: PDF documents describe the details of the project
+
 
 
 
