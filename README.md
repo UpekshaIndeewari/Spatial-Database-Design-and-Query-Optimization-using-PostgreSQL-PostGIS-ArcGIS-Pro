@@ -12,6 +12,9 @@ This project explores the design and implementation of a spatial database using 
 - **PostGIS:** To add geospatial capabilities to PostgreSQL, enabling storage/analysis of spatial data (points, lines, polygons)
 - **ArcGIS Pro:** To visualize, analyze, and map geospatial data for decision-making
 
+## **Workflow**
+![Workflow](https://github.com/UpekshaIndeewari/Spatial-Database-Design-and-Query-Optimization-using-PostgreSQL-PostGIS-ArcGIS-Pro/blob/main/Workflow.png)
+
 ## **Folder Structure**
 📂 MyProjet18
 
